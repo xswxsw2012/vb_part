@@ -154,12 +154,12 @@ moddoc.ViewZoomTo2 0, 0, 0, 0.1, 0.1, 0.1
 moddoc.ViewZoomtofit2
 longstatus = moddoc.SaveAs3(App.Path & "\" & "圆盘.DWG", 0, 0)
 Else
-    MsgBox ("直径输入60-70，厚度输入10-20")
+    MsgBox "直径输入60-70，厚度输入10-20", 64, "提示"
 End If
 End Sub
 
 Private Sub Command2_Click()
-    Unload Form1
+    End
 End Sub
 
 Private Sub Form_Load()
