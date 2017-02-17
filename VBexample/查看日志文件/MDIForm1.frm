@@ -18,7 +18,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub MDIForm_Load()   '主窗体
+Private Sub MDIForm_Load()
     nstr = "启动系统"
     nstr = Format(Now, "yyyy-mm-dd hh:mm:ss") & nstr '变量的值为系统时间与操作
     F = App.Path & "\" & "xsxx.log" '读取文件的路径与文件名
