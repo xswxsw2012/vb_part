@@ -3,6 +3,7 @@ Form=Form1.frm
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\system32\stdole2.tlb#OLE Automation
 Object={5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0; msflxgrd.ocx
 Reference=*\G{00025E01-0000-0000-C000-000000000046}#4.0#0#C:\Program Files\Common Files\Microsoft Shared\DAO\DAO350.DLL#Microsoft DAO 3.51 Object Library
+IconForm="Form1"
 Startup="Form1"
 Command32=""
 Name="¹¤³Ì1"

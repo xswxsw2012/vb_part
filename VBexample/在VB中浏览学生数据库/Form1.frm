@@ -50,7 +50,7 @@ Begin VB.Form Form1
    Begin VB.Data Data1 
       Caption         =   "Data1"
       Connect         =   "Access"
-      DatabaseName    =   "D:\VB\vb_code\VBexample\用Access创建学生数据库\学生数据库.accdb"
+      DatabaseName    =   "C:\desk\xs.mdb"
       DefaultCursorType=   0  '缺省游标
       DefaultType     =   2  '使用 ODBC
       Exclusive       =   0   'False
