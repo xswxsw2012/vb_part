@@ -1,6 +1,6 @@
 Type=Exe
 Form=Form1.frm
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\system32\stdole2.tlb#OLE Automation
 IconForm="Form1"
 Startup="Form1"
 ExeName32="¹¤³Ì1.exe"
@@ -13,6 +13,7 @@ MinorVer=0
 RevisionVer=0
 AutoIncrementVer=0
 ServerSupportFiles=0
+VersionCompanyName="china"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0

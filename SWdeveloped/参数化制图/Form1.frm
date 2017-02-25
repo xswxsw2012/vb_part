@@ -90,9 +90,8 @@ b = Val(Text2.Text)    '圆盘厚度
 
 If a >= 60 And a <= 70 And b >= 10 And b <= 20 Then
 Set swApp = CreateObject("SldWorks.Application")     '启动sw
-Set part = swApp.NewPart()
 swApp.Visible = True
-
+Set part = swApp.NewDocument(App.Path & "\" & "标准图纸" & "\" & "gb_part.prtdot", 0, 0, 0)
 Set myModelView = part.ActiveView
 boolstatus = part.Extension.SelectByID2("前视基准面", "PLANE", 0, 0, 0, False, 0, Nothing, 0)
 part.SketchManager.InsertSketch True    '开始绘制草图
