@@ -1646,60 +1646,620 @@ End Sub
 Private Sub Command3_Click()
 Set swApp = CreateObject("SldWorks.Application")     '启动sw
 swApp.Visible = True
-Set Part = swApp.NewDocument(App.Path & "\" & "标准图纸\gb_a4.drwdot", 12, 0.841, 1.189)
+Set Part = swApp.NewDocument(App.Path & "\" & "标准图纸\gb_a4.drwdot", 12, 0.21, 0.297)
 
-'Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SolidWorks 2014\templates\gb_a4p.drwdot", 12, 0.297, 0.21)
-'swApp.ActivateDoc2 "工程图9 - 图纸1", False, longstatus
+'Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SolidWorks 2014\templates\gb_a4.drwdot", 12, 0.21, 0.297)
+'swApp.ActivateDoc2 "工程图2 - 图纸1", False, longstatus
 Set Part = swApp.ActiveDoc
 Dim myModelView As Object
 Set myModelView = Part.ActiveView
 'myModelView.FrameState = swWindowState_e.swWindowMaximized
 Dim myView As Object
-Set myView = Part.CreateDrawViewFromModelView3(App.Path & "\" & "轴.SLDPRT", "*右视", 0.114108275702019, 0.226678064516129, 0)
+Set myView = Part.CreateDrawViewFromModelView3("C:\Users\xiaosiwei\Desktop\轴二次开发\轴.SLDPRT", "*右视", 0.150716726212446, 0.145969661179597, 0)
 boolstatus = Part.Extension.SelectByID2("工程图视图1", "DRAWINGVIEW", 0, 0, 0, False, 0, Nothing, 0)
 boolstatus = Part.ActivateView("工程图视图1")
-Set myView = Part.CreateUnfoldedViewAt3(0.168330135885382, 0.226678064516129, 0, False)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.Extension.SelectByID2("图纸格式1", "SHEET", 0, 0, 0, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("图纸格式1", "SHEET", 0, 0, 0, False, 0, Nothing, 0)
+Part.ClearSelection2 True
+boolstatus = Part.SetupSheet5("图纸1", 12, 12, 1, 2, True, "a4 - gb.slddrt", 0.297, 0.21, "默认", True)
+boolstatus = Part.Extension.SelectByID2("工程图视图1", "DRAWINGVIEW", 0, 0, 0, False, 0, Nothing, 0)
+Set myView = Part.CreateUnfoldedViewAt3(0.270832323761718, 0.145969661179597, 0, False)
 Part.ClearSelection2 True
 boolstatus = Part.Extension.SelectByID2("工程图视图1", "DRAWINGVIEW", 0, 0, 0, False, 0, Nothing, 0)
-Part.ClearSelection2 True
-
-Dim excludedComponents As Variant
-'Set myView = Part.CreateSectionViewAt6(0.190563955358559, 0.226678064516129, 0, "A", 4, (excludedComponents), 0, True)
-boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateView("工程图视图1")
 Part.ClearSelection2 True
 Part.ClearSelection2 True
 boolstatus = Part.ActivateView("工程图视图2")
 Dim skSegment As Object
-Set skSegment = Part.SketchManager.CreateCircle(0#, 0#, 0#, 0.019788, 0.01945, 0#)
-Set myView = Part.CreateDetailViewAt3(7.07764087699544E-02, 0.165012132957739, 0, 0, 2, 5, "I", 1, False)
+Set skSegment = Part.SketchManager.CreateCircle(0#, 0#, 0#, 0.024228, 0.013807, 0#)
+Set myView = Part.CreateDetailViewAt3(6.35064395397737E-02, 0.066339910079053, 0, 0, 1, 1, "I", 1, False)
 Part.ClearSelection2 True
-boolstatus = Part.ActivateView("工程图视图4")
-Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图3")
 boolstatus = Part.ActivateView("工程图视图2")
-boolstatus = Part.ActivateView("工程图视图3")
-Set skSegment = Part.SketchManager.CreateCircle(0#, 0#, 0#, 0.035191, 0.015199, 0#)
-Set myView = Part.CreateDetailViewAt3(0.154537967430654, 0.165032187874061, 0, 0, 2, 5, "II", 1, False)
-Part.ClearSelection2 True
-boolstatus = Part.ActivateView("工程图视图5")
-Part.ViewZoomtofit2
-Part.ViewZoomtofit2
-boolstatus = Part.ActivateView("工程图视图3")
-boolstatus = Part.Extension.SelectByID2("工程图视图3", "DRAWINGVIEW", 0.197272997307429, 0.235023410522416, 0, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("工程图视图2", "DRAWINGVIEW", 0.285347658770244, 0.165906423526905, 0, False, 0, Nothing, 0)
 Part.SuppressView
 Part.ClearSelection2 True
-boolstatus = Part.ActivateView("工程图视图2")
-boolstatus = Part.Extension.SelectByID2("工程图视图2", "DRAWINGVIEW", 0.176410227907592, 0.236032899364344, 0, False, 0, Nothing, 0)
-Part.SuppressView
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "1.SLDDRW", 0, 0)
+
+diameter_shaft       '标注轴轴线方向尺寸
+level_shaft          '标注轴的水平方向尺寸
+roughness_shaft      '标注轴的粗糙度
+base_shaft           '标注轴的基准面
+type_shaft           '标注形位公差
+e_shaft              '标注E的相关尺寸
+End Sub
+Private Sub diameter_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "1.SLDDRW", 3, 0, "", longstatus, longwarnings)
+
+swApp.ActivateDoc2 "1 - 图纸1", False, longstatus
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 6.72751144571028E-02, 0.160026816624643, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 6.80530383722009E-02, 0.132216036659886, -500, True, 0, Nothing, 0)
+Dim myDisplayDim As Object
+Set myDisplayDim = Part.AddVerticalDimension2(6.78585573934264E-02, 0.14563522419882, 0)
+Part.ClearSelection2 True
+boolstatus = Part.EditDimensionProperties2(0, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.000021, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.000021, 0.000002, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+Part.ClearSelection2 True
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.104420981403036, 0.161777145433613, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.104226500424262, 0.130076745893367, -500, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(0.104615462381811, 0.146413148113918, 0)
+Part.ClearSelection2 True
+Part.ClearSelection2 True
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.130286951580047, 0.162360588369937, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.128925584728626, 0.129493302957043, -500, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(0.131842799410243, 0.145440743220045, 0)
+Part.ClearSelection2 True
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", True, 9, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", True, 9, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.00003, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.EditDimensionProperties2(2, 0.00003, 0.000011, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
 Part.ClearSelection2 True
 boolstatus = Part.ActivateView("工程图视图1")
-boolstatus = Part.Extension.SelectByID2("剖切线1", "SECTIONLINE", 0.112812430866155, 0.237042388206271, 0, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.163154236992941, 0.163721955221359, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.163737679929265, 0.128326417084396, -500, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(0.163348717971716, 0.145829705177594, 0)
+Part.ClearSelection2 True
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", True, 9, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", True, 9, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.000039, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.000039, 0.00002, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+Part.ClearSelection2 True
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.189409169127501, 0.166639169902976, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.189992612063825, 0.125409202402778, -500, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(0.190965016957697, 0.146413148113918, 0)
+Part.ClearSelection2 True
+Part.ClearSelection2 True
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.215664101262061, 0.165666765009104, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.216830987134709, 0.126381607296651, -500, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(0.215664101262061, 0.14563522419882, 0)
+Part.ClearSelection2 True
+Part.ClearSelection2 True
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.244836248078239, 0.162360588369937, -500, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.244836248078239, 0.129104340999494, -500, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(0.244641767099465, 0.145440743220045, 0)
+Part.ClearSelection2 True
+boolstatus = Part.EditDimensionProperties2(0, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.00003, 0, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0.00003, 0.000011, "", "", False, 3, 2, True, 12, 12, "<MOD-DIAM>", "", True, "", "", False)
 Part.ClearSelection2 True
 Part.ViewZoomtofit2
-Part.SheetPrevious
-Part.ViewZoomTo2 0, 0, 0, 0.1, 0.1, 0.1
-Part.ViewZoomTo2 0, 0, 0, 0.1, 0.1, 0.1
-Part.ViewZoomTo2 0, 0, 0, 0.1, 0.1, 0.1
-Part.ViewZoomTo2 0, 0, 0, 0.1, 0.1, 0.1
 Part.ViewZoomtofit2
-longstatus = Part.SaveAs3(App.Path & "\" & "轴.DWG", 0, 0)
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "2.SLDDRW", 0, 0)
+Part.ViewZoomtofit2
+End Sub
+Private Sub level_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "2.SLDDRW", 3, 0, "", longstatus, longwarnings)
+swApp.ActivateDoc2 "轴 - 图纸1", False, longstatus
+
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 5.00333317965003E-02, 0.138086263923522, -499.979958588098, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 8.80906144013625E-02, 0.145161015176991, -499.972559615534, True, 0, Nothing, 0)
+Dim myDisplayDim As Object
+Set myDisplayDim = Part.AddHorizontalDimension2(6.78421884000576E-02, 0.118325751805258, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 5.00333317965003E-02, 0.138818134742847, -499.978889038897, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 9.15060115582091E-02, 0.138086263923523, -499.973309024165, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(6.78421884000576E-02, 0.112714742190439, 0)
+Part.ClearSelection2 True
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.11614566247546, 0.138574177803072, -499.971060799895, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.148104021585953, 0.142233531899693, -499.965806940001, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.132002863560819, 0.116618053226835, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.152983160381448, 0.145161015176991, -499.965063653408, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.184209648672617, 0.145404972116765, -499.965055029845, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.168596404527033, 0.11637409628706, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.148104021585953, 0.142965402719018, -499.965519603765, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.186161304190815, 0.144673101297441, -499.959082085465, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.168596404527033, 0.109469661179597, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.186649218070365, 0.141745618020144, -499.959879807607, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.182989863973743, 0.143697273538342, -499.965382472067, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.182257993154419, 0.121741148962105, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.192016270745409, 0.134670866766676, -499.965789636372, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.186649218070365, 0.135158780646225, -499.965164681017, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.189332744407887, 0.11637409628706, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.18591734725104, 0.13589065146555, -499.964297699612, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.233244993567343, 0.139306048622396, -499.963880267568, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.211288868987615, 0.109469661179597, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.233001036627569, 0.138574177803072, -499.964454574096, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.251785720990225, 0.14052583332127, -499.971509493631, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.241539529519685, 0.109299345033592, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 4.95454179169508E-02, 0.138330220863297, -499.979584177537, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.251297807110675, 0.137110436164423, -499.975174478278, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(0.153227117321223, 9.97850243823769E-02, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "3.SLDDRW", 0, 0)
+Part.ViewZoomtofit2
+End Sub
+Private Sub roughness_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "3.SLDDRW", 3, 0, "", longstatus, longwarnings)
+swApp.ActivateDoc2 "轴 - 图纸1", False, longstatus
+
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Part.ViewZoomtofit2
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 6.94423360694366E-02, 0.160035822676842, -500, False, 0, Nothing, 0)
+Dim mySFSymbol As Object
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 6.94423360694366E-02, 0.159719661179597, 0, 0, 1, "", "", "", "", "", "1.6", "")
+Dim myAnnotation As Object
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.134593463958901, 0.162758556379686, -500, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 0.134593463958901, 0.162219661179597, 0, 0, 1, "", "", "", "", "", "1.6", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.153652599878804, 0.163730961273558, -500, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 0.153652599878804, 0.163469661179597, 0, 0, 1, "", "", "", "", "", "1.6", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.247392431648122, 0.162758556379686, -500, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 0.247392431648122, 0.162219661179597, 0, 0, 1, "", "", "", "", "", "0.8", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 9.70586350554184E-02, 0.161786151485813, -500, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 9.70586350554185E-02, 0.161469661179597, 0, 0, 1, "", "", "", "", "", "3.2", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.186130923334149, 0.158479974846646, -499.967519725872, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 1, 0.186325404312923, 0.176177743918619, 0.13, 0, 1, "", "", "", "", "", "3.2", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("RD11@工程图视图1", "DIMENSION", 0.233195320197582, 0.11900033615891, 0, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 0.233216726212446, 0.119194817137685, 0.00005, 0, 1, "", "", "", "", "", "3.2", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "4.SLDDRW", 0, 0)
+Part.ViewZoomtofit2
+End Sub
+
+Private Sub fillet_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "4.SLDDRW", 3, 0, "", longstatus, longwarnings)
+swApp.ActivateDoc2 "轴 - 图纸1", False, longstatus
+
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 9.08320298971265E-02, 0.1601329472363, -500, False, 0, Nothing, 0)
+Dim myDisplayDim As Object
+Set myDisplayDim = Part.AddDimension2(8.40334518707568E-02, 0.162005019449951, 0)
+Part.ClearSelection2 True
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.115760149327148, 0.161709429097487, -500#, False, 0, Nothing, 0)
+Set myDisplayDim = Part.AddDimension2(0.110538053161966, 0.163778561543787, 0)
+boolstatus = Part.Extension.SelectByID2("RD14@工程图视图1", "DIMENSION", 0, 0, 0, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.147680080094775, 0.162823746440409, -500#, False, 0, Nothing, 0)
+Set myDisplayDim = Part.AddDimension2(0.142810930060695, 0.165312423127986, 0)
+boolstatus = Part.Extension.SelectByID2("RD15@工程图视图1", "DIMENSION", 0, 0, 0, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.185800049950352, 0.164042068435329, -500#, False, 0, Nothing, 0)
+Set myDisplayDim = Part.AddDimension2(0.181593332450023, 0.166822780006834, 0)
+boolstatus = Part.Extension.SelectByID2("RD16@工程图视图1", "DIMENSION", 0, 0, 0, False, 0, Nothing, 0)
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "5.SLDDRW", 0, 0)
+Part.ViewZoomtofit2
+End Sub
+Private Sub base_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "4.SLDDRW", 3, 0, "", longstatus, longwarnings)
+swApp.ActivateDoc2 "轴 - 图纸1", False, longstatus
+
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.126561185996917, 0.129583932375469, -500, False, 0, Nothing, 0)
+
+Dim myDatumTag As Object
+Dim myAnnotation As Object
+Set myDatumTag = Part.InsertDatumTag2()
+If Not myDatumTag Is Nothing Then
+   myDatumTag.FilledTriangle = True
+   myDatumTag.Shoulder = False
+   boolstatus = myDatumTag.SetLabel("A")
+   Set myAnnotation = myDatumTag.GetAnnotation()
+   If Not myAnnotation Is Nothing Then
+      boolstatus = myAnnotation.SetPosition(0.12460081773087, 0.126098833239322, 0)
+   End If
+End If
+Part.WindowRedraw
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.245490194137111, 0.129583932375469, -500, False, 0, Nothing, 0)
+
+Set myDatumTag = Part.InsertDatumTag2()
+If Not myDatumTag Is Nothing Then
+   myDatumTag.FilledTriangle = True
+   myDatumTag.Shoulder = False
+   boolstatus = myDatumTag.SetLabel("B")
+   Set myAnnotation = myDatumTag.GetAnnotation()
+   If Not myAnnotation Is Nothing Then
+      boolstatus = myAnnotation.SetPosition(0.244618919352201, 0.123485008884592, 0)
+   End If
+End If
+Part.WindowRedraw
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 6.94926875853218E-02, 0.131544300641517, -500, False, 0, Nothing, 0)
+
+Set myDatumTag = Part.InsertDatumTag2()
+If Not myDatumTag Is Nothing Then
+   myDatumTag.FilledTriangle = True
+   myDatumTag.Shoulder = False
+   boolstatus = myDatumTag.SetLabel("C")
+   Set myAnnotation = myDatumTag.GetAnnotation()
+   If Not myAnnotation Is Nothing Then
+      boolstatus = myAnnotation.SetPosition(7.55916110796908E-02, 0.128277020201596, 0)
+   End If
+End If
+Part.WindowRedraw
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.16576855131786, 0.128277020198105, -500, False, 0, Nothing, 0)
+
+Set myDatumTag = Part.InsertDatumTag2()
+If Not myDatumTag Is Nothing Then
+   myDatumTag.FilledTriangle = True
+   myDatumTag.Shoulder = False
+   boolstatus = myDatumTag.SetLabel("D")
+   Set myAnnotation = myDatumTag.GetAnnotation()
+   If Not myAnnotation Is Nothing Then
+      boolstatus = myAnnotation.SetPosition(0.162501270874448, 0.125663195846867, 0)
+   End If
+End If
+Part.WindowRedraw
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "6.SLDDRW", 0, 0)
+End Sub
+Private Sub type_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "6.SLDDRW", 3, 0, "", longstatus, longwarnings)
+swApp.ActivateDoc2 "轴 - 图纸1", False, longstatus
+
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.123406910449272, 0.162436604158008, -500#, False, 0, Nothing, 0)
+
+Dim myGtol As Object
+Dim myAnno As Object
+Set myGtol = Part.InsertGtol()
+If Not myGtol Is Nothing Then
+   myGtol.SetFrameSymbols2 1, "<IGTOL-CYL>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 1, "0.005", "", "", "", ""
+   myGtol.SetFrameSymbols2 2, "<IGTOL-SRUN>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 2, "0.01", "A-B", "", "", ""
+   myGtol.SetPTZHeight "", False
+   myGtol.SetCompositeFrame False
+'   myGtol.SetBelowFrame ""
+   myGtol.SetBetweenTwoPoints False, "", ""
+   Set myAnno = myGtol.GetAnnotation()
+   If Not myAnno Is Nothing Then
+      boolstatus = myAnno.SetPosition(0.123406910449272, 0.188489698712949, 0.255619631526348)
+'      longstatus = myAnno.SetLeader3(swLeaderStyle_e.swSTRAIGHT, 0, True, False, False, False)
+   End If
+End If
+Part.WindowRedraw
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.166450073466997, 0.163476294085972, -500, False, 0, Nothing, 0)
+
+Set myGtol = Part.InsertGtol()
+If Not myGtol Is Nothing Then
+   myGtol.SetFrameSymbols2 1, "<IGTOL-SRUN>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 1, "0.015", "A-B", "", "", ""
+   myGtol.SetFrameSymbols2 2, "", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 2, "", "", "", "", ""
+   myGtol.SetPTZHeight "", False
+   myGtol.SetCompositeFrame False
+'   myGtol.SetBelowFrame ""
+   myGtol.SetBetweenTwoPoints False, "", ""
+   Set myAnno = myGtol.GetAnnotation()
+   If Not myAnno Is Nothing Then
+      boolstatus = myAnno.SetPosition(0.166450073466997, 0.195501774876675, 0.169533305490898)
+'      longstatus = myAnno.SetLeader3(swLeaderStyle_e.swSTRAIGHT, 0, True, False, False, False)
+   End If
+End If
+Part.WindowRedraw
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 0.233198166842309, 0.158693720417336, -499.971109806756, False, 0, Nothing, 0)
+
+Set myGtol = Part.InsertGtol()
+If Not myGtol Is Nothing Then
+   myGtol.SetFrameSymbols2 1, "<IGTOL-SRUN>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 1, "0.015", "A-B", "", "", ""
+   myGtol.SetFrameSymbols2 2, "", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 2, "", "", "", "", ""
+   myGtol.SetPTZHeight "", False
+   myGtol.SetCompositeFrame False
+'   myGtol.SetBelowFrame ""
+   myGtol.SetBetweenTwoPoints False, "", ""
+   Set myAnno = myGtol.GetAnnotation()
+   If Not myAnno Is Nothing Then
+      boolstatus = myAnno.SetPosition(0.206532509091281, 0.18542760718143, 0.036)
+'      longstatus = myAnno.SetLeader3(swLeaderStyle_e.swSTRAIGHT, 0, True, False, False, False)
+   End If
+End If
+Part.WindowRedraw
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图1")
+boolstatus = Part.Extension.SelectByID2("", "SILHOUETTE", 0.238604554467724, 0.162228666172415, -500, False, 0, Nothing, 0)
+
+Set myGtol = Part.InsertGtol()
+If Not myGtol Is Nothing Then
+   myGtol.SetFrameSymbols2 1, "<IGTOL-CYL>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 1, "0.005", "", "", "", ""
+   myGtol.SetFrameSymbols2 2, "<IGTOL-SRUN>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 2, "0.01", "A-B", "", "", ""
+   myGtol.SetPTZHeight "", False
+   myGtol.SetCompositeFrame False
+'   myGtol.SetBelowFrame ""
+   myGtol.SetBetweenTwoPoints False, "", ""
+   Set myAnno = myGtol.GetAnnotation()
+   If Not myAnno Is Nothing Then
+      boolstatus = myAnno.SetPosition(0.238604554467724, 0.194050046763285, 2.52243434894447E-02)
+'      longstatus = myAnno.SetLeader3(swLeaderStyle_e.swSTRAIGHT, 0, True, False, False, False)
+   End If
+End If
+Part.WindowRedraw
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "7.SLDDRW", 0, 0)
+End Sub
+Private Sub e_shaft()
+Dim longstatus As Long, longwarnings As Long
+Set swApp = CreateObject("SldWorks.Application")     '启动sw
+swApp.Visible = True
+Set Part = swApp.OpenDoc6(App.Path & "\" & "7.SLDDRW", 3, 0, "", longstatus, longwarnings)
+swApp.ActivateDoc2 "轴 - 图纸1", False, longstatus
+
+Set Part = swApp.ActiveDoc
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Set myModelView = Part.ActiveView
+myModelView.FrameLeft = 0
+myModelView.FrameTop = 0
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+Set myModelView = Part.ActiveView
+'myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 6.14118941797499E-02, 8.02756069891088E-02, 0.200999999999965, False, 0, Nothing, 0)
+Dim myDisplayDim As Object
+Set myDisplayDim = Part.AddHoleCallout2(3.93202097604382E-02, 9.26151063944887E-02, 0)
+boolstatus = Part.ActivateView("工程图视图3")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.Extension.SelectByID2("细节项目259@工程图视图3", "CENTERMARKSYM", 6.47255715920669E-02, 8.15551093694537E-02, 0, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("细节项目260@工程图视图3", "CENTERMARKSYM", 6.44422486261102E-02, 5.18061979440069E-02, 0, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(5.39592988857147E-02, 6.90888988673617E-02, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 8.46601754767758E-02, 0.065626692223373, 0.200999999999965, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 3.79458848498456E-02, 6.58306847588618E-02, 0.200999999999965, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddHorizontalDimension2(7.01767054570726E-02, 3.27838940096783E-02, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", True, 9, 2, True, 12, 12, "", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", True, 9, 2, True, 12, 12, "", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 1, 2, True, 12, 12, "", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, -0.0002, "", "", False, 1, 2, True, 12, 12, "", "", True, "", "", False)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 8.58841306897085E-02, 7.46023637848793E-02, 0.200999999999965, False, 0, Nothing, 0)
+boolstatus = Part.Extension.SelectByID2("", "EDGE", 8.62921157606861E-02, 5.88949385522433E-02, 0.200999999999965, True, 0, Nothing, 0)
+Set myDisplayDim = Part.AddVerticalDimension2(9.56757723931699E-02, 6.56266922233716E-02, 0)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.EditDimensionProperties2(0, 0, 0, "", "", False, 3, 2, True, 12, 12, "", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, 0, "", "", False, 3, 2, True, 12, 12, "", "", True, "", "", False)
+boolstatus = Part.EditDimensionProperties2(2, 0, -0.000043, "", "", False, 3, 2, True, 12, 12, "", "", True, "", "", False)
+Part.ClearSelection2 True
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.Extension.SelectByID2("RD3@工程图视图3", "DIMENSION", 0.085476145618731, 3.84956850033641E-02, 0, False, 0, Nothing, 0)
+Dim mySFSymbol As Object
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 8.49582228265827E-02, 3.78837073968977E-02, -0.2009, 0, 1, "", "", "", "", "", "6.3", "")
+Dim myAnnotation As Object
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.Extension.SelectByID2("RD4@工程图视图3", "DIMENSION", 0.100979578315878, 8.03141547785636E-02, 0, False, 0, Nothing, 0)
+Set mySFSymbol = Part.Extension.InsertSurfaceFinishSymbol3(1, 0, 0.100979578315878, 8.03141547785636E-02, 0, 0, 1, "", "", "", "", "", "3.2", "")
+Set myAnnotation = mySFSymbol.GetAnnotation()
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.ActivateSheet("图纸1")
+boolstatus = Part.ActivateView("工程图视图3")
+boolstatus = Part.Extension.SelectByID2("", "VERTEX", 8.99639813994841E-02, 0.074806356320368, 0.198999999999955, False, 0, Nothing, 0)
+
+Dim myGtol As Object
+Dim myAnno As Object
+Set myGtol = Part.InsertGtol()
+If Not myGtol Is Nothing Then
+   myGtol.SetFrameSymbols2 1, "<IGTOL-SYMMETRY>", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 1, "0.08", "C", "", "", ""
+   myGtol.SetFrameSymbols2 2, "", False, "", False, "", "", "", ""
+   myGtol.SetFrameValues 2, "", "", "", "", ""
+   myGtol.SetPTZHeight "", False
+   myGtol.SetCompositeFrame False
+'   myGtol.SetBelowFrame ""
+   myGtol.SetBetweenTwoPoints False, "", ""
+   Set myAnno = myGtol.GetAnnotation()
+   If Not myAnno Is Nothing Then
+      boolstatus = myAnno.SetPosition(8.97599888639953E-02, 0.09928546057902, 0.4)
+'      longstatus = myAnno.SetLeader3(swLeaderStyle_e.swSTRAIGHT, 0, True, False, False, False)
+   End If
+End If
+Part.WindowRedraw
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+Part.ViewZoomtofit2
+longstatus = Part.SaveAs3(App.Path & "\" & "8.SLDDRW", 0, 0)
 End Sub
