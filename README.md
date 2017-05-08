@@ -1,2 +1,2 @@
 # vb_part
-about vb6.0
+利用vb6.0结合数据库等相关技术对SolidWorks三维软件进行二次开发。
